@@ -18,8 +18,8 @@ import static org.junit.Assert.assertEquals;
  */
 
     public class Task1Test {
-        WebDriver driver;
-        String baseUrl;
+    private WebDriver driver;
+    private String baseUrl;
 
         @Before
         //1.  Перейти на страницу http://www.sberbank.ru/ru/person
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
             System.setProperty("webdriver.chrome.driver", "drv/chromedriver.exe");
             baseUrl = "http://www.sberbank.ru/ru/person";
             driver = new ChromeDriver();
-            driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
             driver.manage().window().maximize();
             driver.get(baseUrl);
         }
@@ -36,11 +36,11 @@ import static org.junit.Assert.assertEquals;
         public void testInsurance(){
             Wait<WebDriver> wait = new WebDriverWait(driver, 40, 1000);
 
-            //2.  Нажать на – Застраховать себя и имущество
-            driver.findElement(By.xpath("//div[contains(@class,'header_more_nav')]//span[contains(text(),'Застраховать себя')]")).click();
+            //2.  Нажать на – Страхование
+            driver.findElement(By.xpath("//div[@class='kitt-row']//span[contains(text(),'Страхование')]")).click();
 
-            //3.  Выбрать – Страхование путешественников
-            driver.findElement(By.xpath("//div[contains(@class,'header_more_nav')]//a[contains(text(),'Страхование путешественников')]")).click();
+            //3.  Выбрать – Путешествия и покупки
+            driver.findElement(By.xpath("//div[@class='kitt-row']//a[contains(text(),'Путешествия и покупки')]")).click();
 
             //4.  Проверить наличие на странице заголовка – Страхование путешественников
             WebElement title = driver.findElement(By.xpath("//div[@class='sbrf-rich-outer']/*[contains(text(),'Страхование путешественников')]"));
@@ -48,7 +48,7 @@ import static org.junit.Assert.assertEquals;
             assertEquals("Страхование путешественников", title.getText());
 
             //5.  Нажать на – Оформить Онлайн
-            driver.findElement(By.xpath("//a//img[contains(@src,'banner-zashita-traveler')]")).click();
+            driver.findElement(By.xpath("//div[@data-pid='SBRF-TEXT-2247407']//a[contains(text(),'Оформить онлайн')]")).click();
 
             for (String handle : driver.getWindowHandles()){ //Переключение экрана
                 driver.switchTo().window(handle);
@@ -60,7 +60,7 @@ import static org.junit.Assert.assertEquals;
             //7.  Нажать Оформить
             driver.findElement(By.xpath("//span[contains(text(),'Оформить')]")).click();
 
-            //8.  На вкладке Оформить заполнить поля:
+            //8.  На вкладке Оформление заполнить поля:
             //    Фамилию и Имя, Дату рождения застрахованных
             fillField(By.name("insured0_surname"), "Smirnova");
             fillField(By.name("insured0_name"), "Anna");
@@ -98,7 +98,7 @@ import static org.junit.Assert.assertEquals;
             assertEquals("02.06.2014", driver.findElement(By.name("issueDate")).getAttribute("value"));
             assertEquals("ОУФМС России по г. Новосибирск", driver.findElement(By.name("issuePlace")).getAttribute("value"));
 
-            //10. Нажать продолжить
+            //10. Нажать кнопку Продолжить
             driver.findElement(By.xpath("//span[contains(text(),'Продолжить')]")).click();
 
             //11. Проверить, что появилось сообщение - Заполнены не все обязательные поля
