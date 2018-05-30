@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
         @Before
         //1.  Перейти на страницу http://www.sberbank.ru/ru/person
-        public void beforeTask(){
+        public void beforeTask()throws Exception {
             System.setProperty("webdriver.chrome.driver", "drv/chromedriver.exe");
             baseUrl = "http://www.sberbank.ru/ru/person";
             driver = new ChromeDriver();
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
         }
 
         @Test
-        public void testInsurance(){
+        public void testInsurance() throws Exception{
             Wait<WebDriver> wait = new WebDriverWait(driver, 40, 1000);
 
             //2.  Нажать на – Страхование
@@ -58,7 +58,8 @@ import static org.junit.Assert.assertEquals;
             driver.findElement(By.xpath("//div[contains(text(),'Минимальная')]")).click();
 
             //7.  Нажать Оформить
-            driver.findElement(By.xpath("//span[contains(text(),'Оформить')]")).click();
+            WebElement issueButton = driver.findElement(By.xpath("//span[contains(text(),'Оформить')]"));
+            wait.until(ExpectedConditions.visibilityOf(issueButton)).click();
 
             //8.  На вкладке Оформление заполнить поля:
             //    Фамилию и Имя, Дату рождения застрахованных
@@ -99,7 +100,8 @@ import static org.junit.Assert.assertEquals;
             assertEquals("ОУФМС России по г. Новосибирск", driver.findElement(By.name("issuePlace")).getAttribute("value"));
 
             //10. Нажать кнопку Продолжить
-            driver.findElement(By.xpath("//span[contains(text(),'Продолжить')]")).click();
+            WebElement continueButton = driver.findElement(By.xpath("//span[contains(text(),'Продолжить')]"));
+            wait.until(ExpectedConditions.visibilityOf(continueButton)).click();
 
             //11. Проверить, что появилось сообщение - Заполнены не все обязательные поля
             WebElement webElement = driver.findElement(By.xpath("//div[@ng-show='tryNext && myForm.$invalid']"));
@@ -112,7 +114,7 @@ import static org.junit.Assert.assertEquals;
         }
 
         @After
-        public void afterTask(){
+        public void afterTask() throws Exception {
             driver.quit();
         }
     }
