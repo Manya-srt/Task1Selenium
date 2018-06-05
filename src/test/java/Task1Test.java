@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,7 +47,9 @@ import static org.junit.Assert.assertEquals;
             assertEquals("Страхование путешественников", title.getText());
 
             //5.  Нажать на – Оформить Онлайн
-            driver.findElement(By.xpath("//div[@data-pid='SBRF-TEXT-2247407']//a[contains(text(),'Оформить онлайн')]")).click();
+            WebElement issueButtonClick = driver.findElement(By.xpath("//div[@data-pid='SBRF-TEXT-2247407']//a[contains(text(),'Оформить онлайн')]"));
+            wait.until(ExpectedConditions.visibilityOf(issueButtonClick)).click();
+
 
             for (String handle : driver.getWindowHandles()){ //Переключение экрана
                 driver.switchTo().window(handle);
