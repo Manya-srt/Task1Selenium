@@ -36,10 +36,12 @@ import static org.junit.Assert.assertEquals;
             Wait<WebDriver> wait = new WebDriverWait(driver, 40, 1000);
 
             //2.  Нажать на – Страхование
-            driver.findElement(By.xpath("//div[@class='kitt-row']//span[contains(text(),'Страхование')]")).click();
+            driver.findElement(By.xpath("//span[contains(text(),'Страхование')]")).click();
 
             //3.  Выбрать – Путешествия и покупки
-            driver.findElement(By.xpath("//div[@class='kitt-row']//a[contains(text(),'Путешествия и покупки')]")).click();
+            wait.until(ExpectedConditions
+                    .visibilityOf(driver.findElement(By.xpath("//div[@class='kit-row']//a[contains(text(),'Путешествия и покупки')]")))).click();
+
 
             //4.  Проверить наличие на странице заголовка – Страхование путешественников
             WebElement title = driver.findElement(By.xpath("//div[@class='sbrf-rich-outer']/*[contains(text(),'Страхование путешественников')]"));
